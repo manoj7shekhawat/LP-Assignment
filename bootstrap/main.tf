@@ -1,5 +1,5 @@
 resource "google_storage_bucket" "google_storage_bucket" {
-  for_each      = toset(var.bucket_name)
+  for_each = toset(var.bucket_name)
 
   name          = each.value
   force_destroy = false
