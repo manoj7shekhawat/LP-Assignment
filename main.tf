@@ -1,14 +1,14 @@
 resource "helm_release" "airflow" {
-  name       = "airflow"
+  name       = var.name
 
-  repository = "https://airflow.apache.org"
-  chart      = "airflow"
-  namespace  = "airflow"
+  repository = var.repository
+  chart      = var.name
+  namespace  = var.name
   create_namespace = true
   wait             = false
 
   set {
     name  = "service.type"
-    value = "LoadBalancer"
+    value = var.service_type
   }
 }

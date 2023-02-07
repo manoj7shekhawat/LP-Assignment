@@ -1,4 +1,11 @@
-variable "initial_mode" {
-  type    = bool
-  default = false
+variable "name" {
+  type = string
+}
+
+variable "repository" {
+  type = string
+}
+
+variable "service_type" {
+  type = string
 }
