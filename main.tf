@@ -1,8 +1,3 @@
-module "lp_assignment" {
-  source = "./modules/gke"
-}
-
-
 resource "helm_release" "airflow" {
   name       = "airflow"
 
@@ -16,5 +11,4 @@ resource "helm_release" "airflow" {
     name  = "service.type"
     value = "LoadBalancer"
   }
-  depends_on = [module.lp_assignment]
 }
