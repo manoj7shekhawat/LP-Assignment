@@ -8,6 +8,6 @@ terraform {
 }
 
 provider "google" {
-  project = "m7shekhawat"
-  region  = "asia-east1"
+  project = "m7shekhawat"  # update based on your project name in GCP
+  region  = "asia-east1" # update location based on your preference
 }
