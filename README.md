@@ -2,7 +2,8 @@
 LivePerson - Cloud DevOps Engineer
 
 1. Create project in GCP
-2. Enable container engine API
-3. Create cluster 
-4. Connect and store credentials
-5. run helm charts
+2. login for project: `gcloud auth application-default login --project $PROJECT`
+3. Enable container engine API
+4. Create cluster 
+5. Connect and store credentials
+6. run helm charts
