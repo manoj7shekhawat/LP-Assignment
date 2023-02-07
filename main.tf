@@ -12,3 +12,11 @@ resource "helm_release" "airflow" {
     value = var.service_type
   }
 }
+
+
+data "kubernetes_service_v1" "airflow-webserver" {
+  metadata {
+    name      = "airflow-webserver"
+    namespace = var.name
+  }
+}
