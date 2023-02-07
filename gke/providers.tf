@@ -5,6 +5,11 @@ terraform {
       version = "4.51.0"
     }
   }
+
+  backend "gcs" {
+    bucket  = "gke-backend-tfstate"
+    prefix  = "terraform/state"
+  }
 }
 
 provider "google" {
