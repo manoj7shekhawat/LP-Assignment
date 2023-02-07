@@ -1,9 +1,9 @@
 resource "helm_release" "airflow" {
-  name       = var.name
+  name = var.name
 
-  repository = var.repository
-  chart      = var.name
-  namespace  = var.name
+  repository       = var.repository
+  chart            = var.name
+  namespace        = var.name
   create_namespace = true
   wait             = false
 

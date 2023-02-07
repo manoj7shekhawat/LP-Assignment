@@ -1,14 +1,14 @@
 terraform {
   required_providers {
     helm = {
-      source = "hashicorp/helm"
+      source  = "hashicorp/helm"
       version = "2.8.0"
     }
   }
 
   backend "gcs" {
-    bucket  = "helm-release-tfstate"
-    prefix  = "terraform/state"
+    bucket = "helm-release-tfstate"
+    prefix = "terraform/state"
   }
 }
 
