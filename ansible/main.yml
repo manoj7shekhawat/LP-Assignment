@@ -3,16 +3,15 @@
   gather_facts: no
   vars:
     gcp_project: m7shekhawat
-    gcp_cred_kind: serviceaccount
-    gcp_cred_file: "/Users/I566958/Downloads/m7shekhawat-fa4b46a2f8d1.json"
-    ansible_ssh_private_key_file: "/Users/I566958/.ssh/ssh-key-ansible-sa"
+    gcp_cred_file: "/Users/I566958/Downloads/m7shekhawat-fa4b46a2f8d1.json" # update this to SA key file dowloaded from gconsole
+    ansible_ssh_private_key_file: "/Users/I566958/.ssh/ssh-key-ansible-sa" # update this to private key generated for SA
     zone: "asia-east1-b"
     region: "asia-east1"
-    machine_type: "e2-medium"
+    gcp_cred_kind: serviceaccount
+    machine_type: "c2-standard-8"
     image: "projects/centos-cloud/global/images/centos-7-v20230203"
-    disk_size: 100
+    disk_size: 200
     disk_type: "pd-ssd"
-
   tasks:
     - name: Create private IP for VM
       gcp_compute_address:
@@ -41,8 +40,7 @@
         tags:
           items:
             - ssl-lb
-            - http-server
-            - https-server
+            - mysql-server
         zone: "{{ zone }}"
         project: "{{ gcp_project }}"
         service_account_file: "{{ gcp_cred_file }}"
@@ -59,9 +57,9 @@
 - name: Create user group to VM
   hosts: gce_instances_ips
   gather_facts: no
-  become: yes
+  become: yes  # to run as root
   vars:
-    ansible_ssh_private_key_file: "/Users/I566958/.ssh/ssh-key-ansible-sa"
+    ansible_ssh_private_key_file: "/Users/I566958/.ssh/ssh-key-ansible-sa" # update this to private key generated for SA
   tasks:
   - name: Create ansible group
     group:
@@ -82,8 +80,8 @@
 - name: Update packages and install mysql
   gather_facts: no
   vars:
-    ansible_ssh_private_key_file: "/Users/I566958/.ssh/ssh-key-ansible-sa"
-    sa_user: "sa_112870513885200380098"
+    ansible_ssh_private_key_file: "/Users/I566958/.ssh/ssh-key-ansible-sa" # update this to private key generated for SA
+    sa_user: "sa_112870513885200380098" # update this to sa_<UID of service account user>
   hosts: gce_instances_ips
   become: yes   # to run as root
   become_method: sudo
