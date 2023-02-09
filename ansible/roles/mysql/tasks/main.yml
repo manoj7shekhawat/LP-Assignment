@@ -1,4 +1,3 @@
-# Failed to connect to the host via ssh: sa_112870513885200380098@104.199.129.3: Permission denied
 - name: Transfer the script
   copy: src=mysql.sh dest=/home/{{sa_user}} mode=0777
 - name: Execute the script
