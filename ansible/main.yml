@@ -4,7 +4,8 @@
   vars:
     gcp_project: m7shekhawat
     gcp_cred_kind: serviceaccount
-    gcp_cred_file: "/Users/I566958/Downloads/m7shekhawat-68c582fc0945.json"
+    gcp_cred_file: "/Users/I566958/Downloads/m7shekhawat-fa4b46a2f8d1.json"
+    ansible_ssh_private_key_file: "/Users/I566958/.ssh/ssh-key-ansible-sa"
     zone: "asia-east1-b"
     region: "asia-east1"
     machine_type: "e2-medium"
@@ -39,7 +40,9 @@
                 type: ONE_TO_ONE_NAT
         tags:
           items:
-            - mysql-server
+            - ssl-lb
+            - http-server
+            - https-server
         zone: "{{ zone }}"
         project: "{{ gcp_project }}"
         service_account_file: "{{ gcp_cred_file }}"
@@ -53,28 +56,34 @@
       add_host: hostname={{ gce_ip.address }} groupname=gce_instances_ips
 
 
-#- name: Create user group to VM
-#  hosts: gce_instances_ips
-#  gather_facts: no
-#  tasks:
-#  - name: Create ansible group
-#    group:
-#      name: ansible
-#      state: present
-#  - name: Create ansible user
-#    user:
-#      name: ansible
-#      group: ansible
-#  - name: Give sudo access to devops user
-#    blockinfile:
-#      path: /etc/sudoers
-#      insertafter: 'root    ALL=(ALL)       ALL'
-#      block: |
-#        # Gives sudo access to the ansible group
-#        %ansible        ALL=(ALL)       NOPASSWD: ALL
+- name: Create user group to VM
+  hosts: gce_instances_ips
+  gather_facts: no
+  become: yes
+  vars:
+    ansible_ssh_private_key_file: "/Users/I566958/.ssh/ssh-key-ansible-sa"
+  tasks:
+  - name: Create ansible group
+    group:
+      name: ansible
+      state: present
+  - name: Create ansible user
+    user:
+      name: ansible
+      group: ansible
+  - name: Give sudo access to devops user
+    blockinfile:
+      path: /etc/sudoers
+      insertafter: 'root    ALL=(ALL)       ALL'
+      block: |
+        # Gives sudo access to the ansible group
+        %ansible        ALL=(ALL)       NOPASSWD: ALL
 
 - name: Update packages and install mysql
   gather_facts: no
+  vars:
+    ansible_ssh_private_key_file: "/Users/I566958/.ssh/ssh-key-ansible-sa"
+    sa_user: "sa_112870513885200380098"
   hosts: gce_instances_ips
   become: yes   # to run as root
   become_method: sudo

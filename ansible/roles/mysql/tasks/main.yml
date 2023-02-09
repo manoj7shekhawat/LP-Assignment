@@ -1,4 +1,15 @@
+# Failed to connect to the host via ssh: sa_112870513885200380098@104.199.129.3: Permission denied
 - name: Transfer the script
-  copy: src=mysql.sh dest=/home/ansible mode=0777
+  copy: src=mysql.sh dest=/home/{{sa_user}} mode=0777
 - name: Execute the script
-  command: sh /home/ansible/mysql.sh
+  command: sh /home/{{sa_user}}/mysql.sh
+
+#- name: upgrade all packages
+#  yum: name=* state=latest
+#
+#- name: Install mysql-server
+#  ansible.builtin.yum:
+#    name: "{{ packages }}"
+#  vars:
+#    packages:
+#      - mysql-server
